@@ -26,15 +26,15 @@ This is a web application with:
 
 **Purpose**: Project initialization and basic structure for chat functionality
 
-- [ ] T001 Install OpenAI Python SDK in backend/requirements.txt
-- [ ] T002 Install Official MCP SDK client library in backend/requirements.txt
-- [ ] T003 [P] Create backend/src/models/conversation.py file structure
-- [ ] T004 [P] Create backend/src/models/message.py file structure
-- [ ] T005 [P] Create backend/src/services/chat_service.py file structure
-- [ ] T006 [P] Create backend/src/services/mcp_client.py file structure
-- [ ] T007 [P] Create backend/src/api/chat.py file structure
-- [ ] T008 Configure OpenAI API key in backend/.env.example
-- [ ] T009 Configure MCP server URL in backend/.env.example
+- [X] T001 Install OpenAI Python SDK in backend/requirements.txt
+- [X] T002 Install Official MCP SDK client library in backend/requirements.txt
+- [X] T003 [P] Create backend/src/models/conversation.py file structure
+- [X] T004 [P] Create backend/src/models/message.py file structure
+- [X] T005 [P] Create backend/src/services/chat_service.py file structure
+- [X] T006 [P] Create backend/src/services/mcp_client.py file structure
+- [X] T007 [P] Create backend/src/api/chat.py file structure
+- [X] T008 Configure OpenAI API key in backend/.env.example
+- [X] T009 Configure MCP server URL in backend/.env.example
 
 ---
 
@@ -44,24 +44,24 @@ This is a web application with:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T010 Create Conversation SQLModel in backend/src/models/conversation.py with fields: id, user_id, created_at, updated_at
-- [ ] T011 Create Message SQLModel in backend/src/models/message.py with fields: id, conversation_id, user_id, role, content, created_at
-- [ ] T012 Create Alembic migration for conversations table in alembic/versions/
-- [ ] T013 Create Alembic migration for messages table in alembic/versions/
-- [ ] T014 Add indexes for conversations.user_id in migration
-- [ ] T015 Add indexes for messages.conversation_id and messages.created_at in migration
-- [ ] T016 Run migrations against Neon PostgreSQL database
-- [ ] T017 Implement MCPClient class in backend/src/services/mcp_client.py with __init__ method
-- [ ] T018 [P] Implement MCPClient.add_task method in backend/src/services/mcp_client.py
-- [ ] T019 [P] Implement MCPClient.list_tasks method in backend/src/services/mcp_client.py
-- [ ] T020 [P] Implement MCPClient.complete_task method in backend/src/services/mcp_client.py
-- [ ] T021 [P] Implement MCPClient.update_task method in backend/src/services/mcp_client.py
-- [ ] T022 [P] Implement MCPClient.delete_task method in backend/src/services/mcp_client.py
-- [ ] T023 Add error handling and retry logic to MCPClient in backend/src/services/mcp_client.py
-- [ ] T024 Initialize OpenAI client in backend/src/services/chat_service.py
-- [ ] T025 Define tool schemas for all 5 MCP tools in backend/src/services/chat_service.py
-- [ ] T026 Register tools with OpenAI agent in backend/src/services/chat_service.py
-- [ ] T027 Implement conversation history formatting for OpenAI API in backend/src/services/chat_service.py
+- [X] T010 Create Conversation SQLModel in backend/src/models/conversation.py with fields: id, user_id, created_at, updated_at
+- [X] T011 Create Message SQLModel in backend/src/models/message.py with fields: id, conversation_id, user_id, role, content, created_at
+- [X] T012 Create Alembic migration for conversations table in alembic/versions/
+- [X] T013 Create Alembic migration for messages table in alembic/versions/
+- [X] T014 Add indexes for conversations.user_id in migration
+- [X] T015 Add indexes for messages.conversation_id and messages.created_at in migration
+- [X] T016 Run migrations against Neon PostgreSQL database
+- [X] T017 Implement MCPClient class in backend/src/services/mcp_client.py with __init__ method
+- [X] T018 [P] Implement MCPClient.add_task method in backend/src/services/mcp_client.py
+- [X] T019 [P] Implement MCPClient.list_tasks method in backend/src/services/mcp_client.py
+- [X] T020 [P] Implement MCPClient.complete_task method in backend/src/services/mcp_client.py
+- [X] T021 [P] Implement MCPClient.update_task method in backend/src/services/mcp_client.py
+- [X] T022 [P] Implement MCPClient.delete_task method in backend/src/services/mcp_client.py
+- [X] T023 Add error handling and retry logic to MCPClient in backend/src/services/mcp_client.py
+- [X] T024 Initialize OpenAI client in backend/src/services/chat_service.py
+- [X] T025 Define tool schemas for all 5 MCP tools in backend/src/services/chat_service.py
+- [X] T026 Register tools with OpenAI agent in backend/src/services/chat_service.py
+- [X] T027 Implement conversation history formatting for OpenAI API in backend/src/services/chat_service.py
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -77,29 +77,29 @@ This is a web application with:
 
 ### Implementation for User Stories 1 & 2
 
-- [ ] T028 [US1+2] Implement get_or_create_conversation method in backend/src/services/chat_service.py
-- [ ] T029 [US1+2] Implement load_conversation_history method in backend/src/services/chat_service.py
-- [ ] T030 [US1+2] Implement save_message method in backend/src/services/chat_service.py
-- [ ] T031 [US1+2] Implement process_message method with OpenAI agent invocation in backend/src/services/chat_service.py
-- [ ] T032 [US1+2] Add tool invocation orchestration in process_message method in backend/src/services/chat_service.py
-- [ ] T033 [US1+2] Implement tool result handling and response generation in backend/src/services/chat_service.py
-- [ ] T034 [US1+2] Add error handling for OpenAI API failures in backend/src/services/chat_service.py
-- [ ] T035 [US1+2] Add error handling for MCP tool failures in backend/src/services/chat_service.py
-- [ ] T036 [US1+2] Create ChatRequest Pydantic schema in backend/src/api/chat.py
-- [ ] T037 [US1+2] Create ChatResponse Pydantic schema in backend/src/api/chat.py
-- [ ] T038 [US1+2] Create ErrorResponse Pydantic schema in backend/src/api/chat.py
-- [ ] T039 [US1+2] Implement POST /api/{user_id}/chat endpoint in backend/src/api/chat.py
-- [ ] T040 [US1+2] Add JWT token validation to chat endpoint in backend/src/api/chat.py
-- [ ] T041 [US1+2] Add user_id validation (JWT matches path parameter) in backend/src/api/chat.py
-- [ ] T042 [US1+2] Add request body validation in backend/src/api/chat.py
-- [ ] T043 [US1+2] Invoke ChatService.process_message from endpoint in backend/src/api/chat.py
-- [ ] T044 [US1+2] Add response serialization in backend/src/api/chat.py
-- [ ] T045 [US1+2] Add error handling with proper HTTP status codes in backend/src/api/chat.py
-- [ ] T046 [US1+2] Add conversation_id validation (belongs to user) in backend/src/api/chat.py
-- [ ] T047 [US1+2] Update conversation.updated_at timestamp on new messages in backend/src/services/chat_service.py
-- [ ] T048 [US1+2] Add message content sanitization to prevent XSS in backend/src/services/chat_service.py
-- [ ] T049 [US1+2] Add conversation history size limit (50 messages) in backend/src/services/chat_service.py
-- [ ] T050 [US1+2] Add request timeout handling (5 seconds) in backend/src/api/chat.py
+- [X] T028 [US1+2] Implement get_or_create_conversation method in backend/src/services/chat_service.py
+- [X] T029 [US1+2] Implement load_conversation_history method in backend/src/services/chat_service.py
+- [X] T030 [US1+2] Implement save_message method in backend/src/services/chat_service.py
+- [X] T031 [US1+2] Implement process_message method with OpenAI agent invocation in backend/src/services/chat_service.py
+- [X] T032 [US1+2] Add tool invocation orchestration in process_message method in backend/src/services/chat_service.py
+- [X] T033 [US1+2] Implement tool result handling and response generation in backend/src/services/chat_service.py
+- [X] T034 [US1+2] Add error handling for OpenAI API failures in backend/src/services/chat_service.py
+- [X] T035 [US1+2] Add error handling for MCP tool failures in backend/src/services/chat_service.py
+- [X] T036 [US1+2] Create ChatRequest Pydantic schema in backend/src/api/chat.py
+- [X] T037 [US1+2] Create ChatResponse Pydantic schema in backend/src/api/chat.py
+- [X] T038 [US1+2] Create ErrorResponse Pydantic schema in backend/src/api/chat.py
+- [X] T039 [US1+2] Implement POST /api/{user_id}/chat endpoint in backend/src/api/chat.py
+- [X] T040 [US1+2] Add JWT token validation to chat endpoint in backend/src/api/chat.py
+- [X] T041 [US1+2] Add user_id validation (JWT matches path parameter) in backend/src/api/chat.py
+- [X] T042 [US1+2] Add request body validation in backend/src/api/chat.py
+- [X] T043 [US1+2] Invoke ChatService.process_message from endpoint in backend/src/api/chat.py
+- [X] T044 [US1+2] Add response serialization in backend/src/api/chat.py
+- [X] T045 [US1+2] Add error handling with proper HTTP status codes in backend/src/api/chat.py
+- [X] T046 [US1+2] Add conversation_id validation (belongs to user) in backend/src/api/chat.py
+- [X] T047 [US1+2] Update conversation.updated_at timestamp on new messages in backend/src/services/chat_service.py
+- [X] T048 [US1+2] Add message content sanitization to prevent XSS in backend/src/services/chat_service.py
+- [X] T049 [US1+2] Add conversation history size limit (50 messages) in backend/src/services/chat_service.py
+- [X] T050 [US1+2] Add request timeout handling (5 seconds) in backend/src/api/chat.py
 
 **Checkpoint**: At this point, users can create tasks via natural language, all messages are persisted, conversation history is restored on each request, and conversations resume correctly after server restart. This is the complete MVP.
 

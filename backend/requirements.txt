@@ -8,3 +8,5 @@ python-multipart==0.0.12
 pydantic==2.9.2
 pydantic-settings==2.5.2
 alembic==1.13.3
+openai==1.54.0
+requests==2.31.0

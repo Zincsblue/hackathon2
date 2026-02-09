@@ -10,6 +10,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from .config import get_settings
 from .api.routes import tasks, auth
+from .api import chat
 from .middleware.rate_limit import limiter, rate_limit_exceeded_handler
 
 settings = get_settings()
@@ -113,5 +114,8 @@ app.include_router(tasks.router, prefix="/api/v1")
 
 # Register authentication routes
 app.include_router(auth.router, prefix="/api/v1")
+
+# Register chat routes
+app.include_router(chat.router)
 
 logger.info(f"Task Management API started on {settings.api_host}:{settings.api_port}")
