@@ -67,8 +67,7 @@ def update_task(
         }
 
     # Create database session
-    session_gen = get_session()
-    session = next(session_gen)
+    session = get_session()
 
     try:
         # Query task with user_id validation (user isolation)
@@ -138,7 +137,4 @@ def update_task(
             }
         }
     finally:
-        try:
-            next(session_gen, None)
-        except StopIteration:
-            pass
+        session.close()

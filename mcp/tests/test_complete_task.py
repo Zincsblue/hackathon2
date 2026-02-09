@@ -7,57 +7,76 @@ This module tests the complete_task tool functionality including:
 """
 
 import pytest
+from unittest.mock import patch
 
 from src.tools.add_task import add_task
 from src.tools.complete_task import complete_task
 
 
-def test_complete_task_success(test_user_id):
+def test_complete_task_success(test_session, test_user_id):
     """Test successful task completion."""
-    # Create a task first
-    result = add_task(test_user_id, "Buy groceries")
-    task_id = result["data"]["id"]
+    with patch('src.tools.add_task.get_session') as mock_add_session, \
+         patch('src.tools.complete_task.get_session') as mock_complete_session:
+        mock_add_session.return_value = test_session
+        mock_complete_session.return_value = test_session
 
-    # Complete the task
-    result = complete_task(test_user_id, task_id)
+        # Create a task first
+        result = add_task(test_user_id, "Buy groceries")
+        task_id = result["data"]["id"]
 
-    assert result["success"] is True
-    assert result["data"]["completed"] is True
-    assert result["data"]["id"] == task_id
+        # Complete the task
+        result = complete_task(test_user_id, task_id)
+
+        assert result["success"] is True
+        assert result["data"]["completed"] is True
+        assert result["data"]["id"] == task_id
 
 
-def test_complete_task_not_found(test_user_id):
+def test_complete_task_not_found(test_session, test_user_id):
     """Test completing a non-existent task."""
-    result = complete_task(test_user_id, 99999)
+    with patch('src.tools.complete_task.get_session') as mock_get_session:
+        mock_get_session.return_value = test_session
 
-    assert result["success"] is False
-    assert result["error"]["code"] == "TASK_NOT_FOUND"
+        result = complete_task(test_user_id, 99999)
+
+        assert result["success"] is False
+        assert result["error"]["code"] == "TASK_NOT_FOUND"
 
 
-def test_complete_task_unauthorized():
+def test_complete_task_unauthorized(test_session):
     """Test completing another user's task."""
-    # Create task for user1
-    user1_id = "user1"
-    result = add_task(user1_id, "User1 Task")
-    task_id = result["data"]["id"]
+    with patch('src.tools.add_task.get_session') as mock_add_session, \
+         patch('src.tools.complete_task.get_session') as mock_complete_session:
+        mock_add_session.return_value = test_session
+        mock_complete_session.return_value = test_session
 
-    # Try to complete as user2
-    user2_id = "user2"
-    result = complete_task(user2_id, task_id)
+        # Create task for user1
+        user1_id = "user1"
+        result = add_task(user1_id, "User1 Task")
+        task_id = result["data"]["id"]
 
-    assert result["success"] is False
-    assert result["error"]["code"] == "UNAUTHORIZED"
+        # Try to complete as user2
+        user2_id = "user2"
+        result = complete_task(user2_id, task_id)
+
+        assert result["success"] is False
+        assert result["error"]["code"] == "UNAUTHORIZED"
 
 
-def test_complete_task_already_completed(test_user_id):
+def test_complete_task_already_completed(test_session, test_user_id):
     """Test completing an already completed task."""
-    # Create and complete a task
-    result = add_task(test_user_id, "Buy groceries")
-    task_id = result["data"]["id"]
-    complete_task(test_user_id, task_id)
+    with patch('src.tools.add_task.get_session') as mock_add_session, \
+         patch('src.tools.complete_task.get_session') as mock_complete_session:
+        mock_add_session.return_value = test_session
+        mock_complete_session.return_value = test_session
 
-    # Complete again
-    result = complete_task(test_user_id, task_id)
+        # Create and complete a task
+        result = add_task(test_user_id, "Buy groceries")
+        task_id = result["data"]["id"]
+        complete_task(test_user_id, task_id)
 
-    assert result["success"] is True
-    assert result["data"]["completed"] is True
+        # Complete again
+        result = complete_task(test_user_id, task_id)
+
+        assert result["success"] is True
+        assert result["data"]["completed"] is True

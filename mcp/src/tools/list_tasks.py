@@ -55,8 +55,7 @@ def list_tasks(user_id: str) -> Dict[str, Any]:
         }
 
     # Create database session
-    session_gen = get_session()
-    session = next(session_gen)
+    session = get_session()
 
     try:
         # Verify user exists
@@ -96,7 +95,4 @@ def list_tasks(user_id: str) -> Dict[str, Any]:
             }
         }
     finally:
-        try:
-            next(session_gen, None)
-        except StopIteration:
-            pass
+        session.close()

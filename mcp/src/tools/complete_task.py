@@ -52,8 +52,7 @@ def complete_task(user_id: str, task_id: int) -> Dict[str, Any]:
         }
 
     # Create database session
-    session_gen = get_session()
-    session = next(session_gen)
+    session = get_session()
 
     try:
         # Query task with user_id validation (user isolation)
@@ -116,7 +115,4 @@ def complete_task(user_id: str, task_id: int) -> Dict[str, Any]:
             }
         }
     finally:
-        try:
-            next(session_gen, None)
-        except StopIteration:
-            pass
+        session.close()

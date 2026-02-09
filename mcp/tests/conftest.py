@@ -7,6 +7,7 @@ and test tasks.
 import pytest
 import os
 from sqlmodel import Session, create_engine, SQLModel
+from sqlalchemy.pool import StaticPool
 from datetime import datetime
 
 from src.models import Task
@@ -26,7 +27,11 @@ def test_engine():
     engine = create_engine(
         TEST_DATABASE_URL,
         echo=False,
-        connect_args={"check_same_thread": False}
+        connect_args={
+            "check_same_thread": False,
+            "timeout": 30.0  # Increase timeout for concurrent operations
+        },
+        poolclass=StaticPool  # Use StaticPool for in-memory SQLite
     )
 
     # Create all tables

@@ -38,29 +38,27 @@ def get_engine():
     return engine
 
 
-def get_session() -> Generator[Session, None, None]:
-    """Create a new database session with automatic cleanup.
+def get_session() -> Session:
+    """Create a new database session.
 
-    This function provides a database session that automatically commits
-    on success and rolls back on error. Use with context manager or
-    dependency injection.
+    This function provides a database session. The caller is responsible
+    for committing, rolling back, and closing the session.
 
-    Yields:
+    Returns:
         Session: SQLModel database session
 
     Example:
-        with get_session() as session:
+        session = get_session()
+        try:
             task = session.get(Task, task_id)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
     """
-    session = Session(engine)
-    try:
-        yield session
-        session.commit()
-    except Exception:
-        session.rollback()
-        raise
-    finally:
-        session.close()
+    return Session(engine)
 
 
 def init_db():

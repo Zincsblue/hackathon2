@@ -53,8 +53,7 @@ def add_task(user_id: str, title: str, description: str = None) -> Dict[str, Any
         }
 
     # Create database session
-    session_gen = get_session()
-    session = next(session_gen)
+    session = get_session()
 
     try:
         # Verify user exists (user_id validation)
@@ -104,7 +103,4 @@ def add_task(user_id: str, title: str, description: str = None) -> Dict[str, Any
             }
         }
     finally:
-        try:
-            next(session_gen, None)
-        except StopIteration:
-            pass
+        session.close()
