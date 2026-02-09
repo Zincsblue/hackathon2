@@ -1,0 +1,15 @@
+# MCP Server Dependencies
+# Official MCP SDK for Python
+mcp>=1.0.0
+
+# Database ORM and driver
+sqlmodel==0.0.22
+psycopg2-binary==2.9.9
+
+# Validation and configuration
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0

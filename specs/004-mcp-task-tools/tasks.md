@@ -29,11 +29,11 @@ Tasks are organized by implementation phase and user story priority. Each task i
 
 ## Setup Phase
 
-- [ ] [T001] Create mcp/ directory structure at repository root with src/, tests/, and config subdirectories
-- [ ] [T002] Create requirements.txt in mcp/ with dependencies: mcp>=1.0.0, sqlmodel==0.0.22, psycopg2-binary==2.9.9, pydantic>=2.0.0, python-dotenv>=1.0.0, pytest>=7.0.0
-- [ ] [T003] Create .env.example in mcp/ with DATABASE_URL, MCP_SERVER_PORT, LOG_LEVEL placeholders
-- [ ] [T004] Create mcp/README.md with MCP server overview, installation instructions, and quickstart guide
-- [ ] [T005] Create mcp/src/__init__.py and mcp/tests/__init__.py to mark as Python packages
+- [X] [T001] Create mcp/ directory structure at repository root with src/, tests/, and config subdirectories
+- [X] [T002] Create requirements.txt in mcp/ with dependencies: mcp>=1.0.0, sqlmodel==0.0.22, psycopg2-binary==2.9.9, pydantic>=2.0.0, python-dotenv>=1.0.0, pytest>=7.0.0
+- [X] [T003] Create .env.example in mcp/ with DATABASE_URL, MCP_SERVER_PORT, LOG_LEVEL placeholders
+- [X] [T004] Create mcp/README.md with MCP server overview, installation instructions, and quickstart guide
+- [X] [T005] Create mcp/src/__init__.py and mcp/tests/__init__.py to mark as Python packages
 
 ---
 
@@ -41,19 +41,19 @@ Tasks are organized by implementation phase and user story priority. Each task i
 
 ### MCP Server Foundation (Phase 1)
 
-- [ ] [T006] Create mcp/src/database.py with database connection pool using SQLModel and Neon PostgreSQL connection string from environment
-- [ ] [T007] Create mcp/src/models.py that imports Task model from backend/src/models/task.py for reuse
-- [ ] [T008] Create mcp/src/server.py with MCP server initialization using Official MCP SDK
-- [ ] [T009] Implement database session management in mcp/src/database.py with connection pooling (pool_size=10) and transaction support
-- [ ] [T010] Add server lifecycle management (start/stop) in mcp/src/server.py with graceful shutdown and connection cleanup
+- [X] [T006] Create mcp/src/database.py with database connection pool using SQLModel and Neon PostgreSQL connection string from environment
+- [X] [T007] Create mcp/src/models.py that imports Task model from backend/src/models/task.py for reuse
+- [X] [T008] Create mcp/src/server.py with MCP server initialization using Official MCP SDK
+- [X] [T009] Implement database session management in mcp/src/database.py with connection pooling (pool_size=10) and transaction support
+- [X] [T010] Add server lifecycle management (start/stop) in mcp/src/server.py with graceful shutdown and connection cleanup
 
 ### Tool Interface Definition (Phase 2)
 
-- [ ] [T011] Create mcp/src/schemas.py with Pydantic models for tool input schemas (AddTaskInput, ListTasksInput, CompleteTaskInput, UpdateTaskInput, DeleteTaskInput)
-- [ ] [T012] Create mcp/src/schemas.py with Pydantic models for tool output schemas (TaskOutput, TaskListOutput, DeleteTaskOutput, ErrorResponse)
-- [ ] [T013] Create mcp/src/tools/__init__.py with tool registry and registration helper functions
-- [ ] [T014] Define structured error response format in mcp/src/schemas.py with error_code, message, and details fields
-- [ ] [T015] Register tool discovery mechanism in mcp/src/server.py to expose available tools to AI agents
+- [X] [T011] Create mcp/src/schemas.py with Pydantic models for tool input schemas (AddTaskInput, ListTasksInput, CompleteTaskInput, UpdateTaskInput, DeleteTaskInput)
+- [X] [T012] Create mcp/src/schemas.py with Pydantic models for tool output schemas (TaskOutput, TaskListOutput, DeleteTaskOutput, ErrorResponse)
+- [X] [T013] Create mcp/src/tools/__init__.py with tool registry and registration helper functions
+- [X] [T014] Define structured error response format in mcp/src/schemas.py with error_code, message, and details fields
+- [X] [T015] Register tool discovery mechanism in mcp/src/server.py to expose available tools to AI agents
 
 ---
 
@@ -61,43 +61,43 @@ Tasks are organized by implementation phase and user story priority. Each task i
 
 ### US1 (P1): Task Creation via MCP Tool
 
-- [ ] [T016] [US1] Create mcp/src/tools/add_task.py with @mcp.tool() decorator and function signature accepting user_id, title, description
-- [ ] [T017] [US1] Implement database insert logic in add_task tool using SQLModel session and Task model
-- [ ] [T018] [US1] Add input validation in add_task tool: verify title is 1-200 characters, description ≤1000 characters if provided
-- [ ] [T019] [US1] Implement user_id validation in add_task tool: verify user exists in users table before creating task
-- [ ] [T020] [US1] Return structured success response from add_task tool with created task object including id, user_id, title, description, completed, created_at, updated_at
+- [X] [T016] [US1] Create mcp/src/tools/add_task.py with @mcp.tool() decorator and function signature accepting user_id, title, description
+- [X] [T017] [US1] Implement database insert logic in add_task tool using SQLModel session and Task model
+- [X] [T018] [US1] Add input validation in add_task tool: verify title is 1-200 characters, description ≤1000 characters if provided
+- [X] [T019] [US1] Implement user_id validation in add_task tool: verify user exists in users table before creating task
+- [X] [T020] [US1] Return structured success response from add_task tool with created task object including id, user_id, title, description, completed, created_at, updated_at
 
 ### US2 (P1): Task Listing via MCP Tool
 
-- [ ] [T021] [US2] Create mcp/src/tools/list_tasks.py with @mcp.tool() decorator and function signature accepting user_id
-- [ ] [T022] [US2] Implement user-scoped database query in list_tasks tool: SELECT * FROM tasks WHERE user_id = ? using SQLModel
-- [ ] [T023] [US2] Add user_id validation in list_tasks tool: verify user exists in users table
-- [ ] [T024] [US2] Handle empty task list scenario in list_tasks tool: return empty array with count=0 without errors
-- [ ] [T025] [US2] Return structured success response from list_tasks tool with tasks array and count field
+- [X] [T021] [US2] Create mcp/src/tools/list_tasks.py with @mcp.tool() decorator and function signature accepting user_id
+- [X] [T022] [US2] Implement user-scoped database query in list_tasks tool: SELECT * FROM tasks WHERE user_id = ? using SQLModel
+- [X] [T023] [US2] Add user_id validation in list_tasks tool: verify user exists in users table
+- [X] [T024] [US2] Handle empty task list scenario in list_tasks tool: return empty array with count=0 without errors
+- [X] [T025] [US2] Return structured success response from list_tasks tool with tasks array and count field
 
 ### US3 (P2): Task Completion via MCP Tool
 
-- [ ] [T026] [US3] Create mcp/src/tools/complete_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id
-- [ ] [T027] [US3] Implement task lookup with user validation in complete_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
-- [ ] [T028] [US3] Implement database update logic in complete_task tool: UPDATE tasks SET completed = true, updated_at = NOW() WHERE id = ? AND user_id = ?
-- [ ] [T029] [US3] Add authorization check in complete_task tool: return UNAUTHORIZED error if task belongs to different user
-- [ ] [T030] [US3] Return structured success response from complete_task tool with updated task object showing completed=true
+- [X] [T026] [US3] Create mcp/src/tools/complete_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id
+- [X] [T027] [US3] Implement task lookup with user validation in complete_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
+- [X] [T028] [US3] Implement database update logic in complete_task tool: UPDATE tasks SET completed = true, updated_at = NOW() WHERE id = ? AND user_id = ?
+- [X] [T029] [US3] Add authorization check in complete_task tool: return UNAUTHORIZED error if task belongs to different user
+- [X] [T030] [US3] Return structured success response from complete_task tool with updated task object showing completed=true
 
 ### US4 (P2): Task Update via MCP Tool
 
-- [ ] [T031] [US4] Create mcp/src/tools/update_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id, title (optional), description (optional), completed (optional)
-- [ ] [T032] [US4] Implement task lookup with user validation in update_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
-- [ ] [T033] [US4] Implement partial update logic in update_task tool: only update provided fields (title, description, completed) and always update updated_at
-- [ ] [T034] [US4] Add input validation in update_task tool: verify title is 1-200 characters if provided, description ≤1000 characters if provided
-- [ ] [T035] [US4] Return structured success response from update_task tool with updated task object reflecting all changes
+- [X] [T031] [US4] Create mcp/src/tools/update_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id, title (optional), description (optional), completed (optional)
+- [X] [T032] [US4] Implement task lookup with user validation in update_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
+- [X] [T033] [US4] Implement partial update logic in update_task tool: only update provided fields (title, description, completed) and always update updated_at
+- [X] [T034] [US4] Add input validation in update_task tool: verify title is 1-200 characters if provided, description ≤1000 characters if provided
+- [X] [T035] [US4] Return structured success response from update_task tool with updated task object reflecting all changes
 
 ### US5 (P3): Task Deletion via MCP Tool
 
-- [ ] [T036] [US5] Create mcp/src/tools/delete_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id
-- [ ] [T037] [US5] Implement task lookup with user validation in delete_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
-- [ ] [T038] [US5] Implement database delete logic in delete_task tool: DELETE FROM tasks WHERE id = ? AND user_id = ?
-- [ ] [T039] [US5] Add authorization check in delete_task tool: return UNAUTHORIZED error if task belongs to different user
-- [ ] [T040] [US5] Return structured success response from delete_task tool with deleted=true, task_id, and confirmation message
+- [X] [T036] [US5] Create mcp/src/tools/delete_task.py with @mcp.tool() decorator and function signature accepting user_id, task_id
+- [X] [T037] [US5] Implement task lookup with user validation in delete_task tool: SELECT * FROM tasks WHERE id = ? AND user_id = ?
+- [X] [T038] [US5] Implement database delete logic in delete_task tool: DELETE FROM tasks WHERE id = ? AND user_id = ?
+- [X] [T039] [US5] Add authorization check in delete_task tool: return UNAUTHORIZED error if task belongs to different user
+- [X] [T040] [US5] Return structured success response from delete_task tool with deleted=true, task_id, and confirmation message
 
 ---
 
