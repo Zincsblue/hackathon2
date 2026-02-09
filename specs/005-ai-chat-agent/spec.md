@@ -170,18 +170,11 @@ A user wants to permanently remove a task by instructing the AI agent, and the a
 
 ### Out of Scope
 
-- Streaming chat responses (synchronous responses only)
-- Voice or multimodal input (text-only)
+- Streaming responses
+- Voice or multimodal input
 - Prompt engineering experimentation UI
-- Tool execution visualization or debugging UI
-- Multi-turn conversation branching or editing
-- Conversation search or filtering
-- Task scheduling or reminders
-- Conversation export or sharing
-- Real-time typing indicators
-- Message editing or deletion
-- Conversation summarization
-- Custom AI model training or fine-tuning
+- Tool execution outside MCP
+- Non-task-related conversations
 
 ## Assumptions *(mandatory)*
 
