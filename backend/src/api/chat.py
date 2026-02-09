@@ -4,12 +4,14 @@ Chat API endpoint for AI Chat Agent.
 This module implements the REST API endpoint for chat interactions.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import BaseModel, Field
 from typing import Optional, Annotated
 from datetime import datetime
 from sqlmodel import Session
 import asyncio
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from backend.src.database import get_session
 from backend.src.services.chat_service import ChatService
@@ -18,6 +20,9 @@ from backend.src.models.user import User
 
 
 router = APIRouter(prefix="/api", tags=["chat"])
+
+# Initialize rate limiter
+limiter = Limiter(key_func=get_remote_address)
 
 
 class ChatRequest(BaseModel):
@@ -86,13 +91,16 @@ class ErrorResponse(BaseModel):
     400: {"model": ErrorResponse, "description": "Invalid input"},
     401: {"model": ErrorResponse, "description": "Unauthorized"},
     404: {"model": ErrorResponse, "description": "Conversation not found"},
+    429: {"model": ErrorResponse, "description": "Rate limit exceeded"},
     502: {"model": ErrorResponse, "description": "MCP or OpenAI error"},
     503: {"model": ErrorResponse, "description": "Service unavailable"},
     504: {"model": ErrorResponse, "description": "Request timeout"}
 })
+@limiter.limit("60/minute")  # Per-user rate limit: 60 requests per minute
 async def chat(
+    request: Request,
     user_id: str,
-    request: ChatRequest,
+    chat_request: ChatRequest,
     current_user: CurrentUserFromToken,
     session: Session = Depends(get_session)
 ):
@@ -124,7 +132,7 @@ async def chat(
         )
 
     # Validate request body
-    if not request.message or not request.message.strip():
+    if not chat_request.message or not chat_request.message.strip():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={
@@ -136,7 +144,7 @@ async def chat(
             }
         )
 
-    if len(request.message) > 10000:
+    if len(chat_request.message) > 10000:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={
@@ -145,16 +153,16 @@ async def chat(
                     "message": "Message exceeds maximum length of 10000 characters",
                     "details": {
                         "max_length": 10000,
-                        "actual_length": len(request.message)
+                        "actual_length": len(chat_request.message)
                     }
                 }
             }
         )
 
     # Validate conversation_id belongs to user if provided
-    if request.conversation_id:
+    if chat_request.conversation_id:
         from backend.src.models.conversation import Conversation
-        conversation = session.get(Conversation, request.conversation_id)
+        conversation = session.get(Conversation, chat_request.conversation_id)
         if not conversation or conversation.user_id != user_id:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -162,7 +170,7 @@ async def chat(
                     "error": {
                         "code": "CONVERSATION_NOT_FOUND",
                         "message": "Conversation not found or access denied",
-                        "details": {"conversation_id": request.conversation_id}
+                        "details": {"conversation_id": chat_request.conversation_id}
                     }
                 }
             )
@@ -176,8 +184,8 @@ async def chat(
             asyncio.to_thread(
                 chat_service.process_message,
                 user_id,
-                request.message,
-                request.conversation_id
+                chat_request.message,
+                chat_request.conversation_id
             ),
             timeout=5.0
         )

@@ -113,10 +113,10 @@ This is a web application with:
 
 ### Implementation for User Story 3
 
-- [ ] T051 [US3] Add list_tasks tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
-- [ ] T052 [US3] Implement task list formatting for conversational response in backend/src/services/chat_service.py
-- [ ] T053 [US3] Add empty task list handling with helpful prompt in backend/src/services/chat_service.py
-- [ ] T054 [US3] Add error handling for list_tasks MCP tool failures in backend/src/services/chat_service.py
+- [X] T051 [US3] Add list_tasks tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
+- [X] T052 [US3] Implement task list formatting for conversational response in backend/src/services/chat_service.py
+- [X] T053 [US3] Add empty task list handling with helpful prompt in backend/src/services/chat_service.py
+- [X] T054 [US3] Add error handling for list_tasks MCP tool failures in backend/src/services/chat_service.py
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently. Users can create tasks and view their task list conversationally.
 
@@ -130,11 +130,11 @@ This is a web application with:
 
 ### Implementation for User Story 4
 
-- [ ] T055 [US4] Add complete_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
-- [ ] T056 [US4] Implement task identification from natural language in backend/src/services/chat_service.py
-- [ ] T057 [US4] Add ambiguous task reference handling (ask for clarification) in backend/src/services/chat_service.py
-- [ ] T058 [US4] Add non-existent task error handling in backend/src/services/chat_service.py
-- [ ] T059 [US4] Add completion confirmation message generation in backend/src/services/chat_service.py
+- [X] T055 [US4] Add complete_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
+- [X] T056 [US4] Implement task identification from natural language in backend/src/services/chat_service.py
+- [X] T057 [US4] Add ambiguous task reference handling (ask for clarification) in backend/src/services/chat_service.py
+- [X] T058 [US4] Add non-existent task error handling in backend/src/services/chat_service.py
+- [X] T059 [US4] Add completion confirmation message generation in backend/src/services/chat_service.py
 
 **Checkpoint**: At this point, User Stories 1-4 should all work independently. Users can create, view, and complete tasks conversationally.
 
@@ -148,11 +148,11 @@ This is a web application with:
 
 ### Implementation for User Story 5
 
-- [ ] T060 [US5] Add update_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
-- [ ] T061 [US5] Implement task field update detection from natural language in backend/src/services/chat_service.py
-- [ ] T062 [US5] Add partial update support (title only, description only, or both) in backend/src/services/chat_service.py
-- [ ] T063 [US5] Add ambiguous update reference handling in backend/src/services/chat_service.py
-- [ ] T064 [US5] Add update confirmation message generation in backend/src/services/chat_service.py
+- [X] T060 [US5] Add update_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
+- [X] T061 [US5] Implement task field update detection from natural language in backend/src/services/chat_service.py
+- [X] T062 [US5] Add partial update support (title only, description only, or both) in backend/src/services/chat_service.py
+- [X] T063 [US5] Add ambiguous update reference handling in backend/src/services/chat_service.py
+- [X] T064 [US5] Add update confirmation message generation in backend/src/services/chat_service.py
 
 **Checkpoint**: At this point, User Stories 1-5 should all work independently. Users can create, view, complete, and update tasks conversationally.
 
@@ -166,11 +166,11 @@ This is a web application with:
 
 ### Implementation for User Story 6
 
-- [ ] T065 [US6] Add delete_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
-- [ ] T066 [US6] Implement task identification for deletion from natural language in backend/src/services/chat_service.py
-- [ ] T067 [US6] Add deletion confirmation request (for safety) in backend/src/services/chat_service.py
-- [ ] T068 [US6] Add non-existent task deletion error handling in backend/src/services/chat_service.py
-- [ ] T069 [US6] Add deletion confirmation message generation in backend/src/services/chat_service.py
+- [X] T065 [US6] Add delete_task tool invocation logic to OpenAI agent in backend/src/services/chat_service.py
+- [X] T066 [US6] Implement task identification for deletion from natural language in backend/src/services/chat_service.py
+- [X] T067 [US6] Add deletion confirmation request (for safety) in backend/src/services/chat_service.py
+- [X] T068 [US6] Add non-existent task deletion error handling in backend/src/services/chat_service.py
+- [X] T069 [US6] Add deletion confirmation message generation in backend/src/services/chat_service.py
 
 **Checkpoint**: All user stories should now be independently functional. Full task management workflow available via natural language.
 
@@ -180,19 +180,19 @@ This is a web application with:
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T070 [P] Add structured logging for all chat operations in backend/src/services/chat_service.py
-- [ ] T071 [P] Add rate limiting per user (60 requests/minute) in backend/src/api/chat.py
-- [ ] T072 [P] Add global rate limiting (1000 requests/minute) in backend/src/api/chat.py
-- [ ] T073 [P] Add performance monitoring and metrics in backend/src/api/chat.py
-- [ ] T074 [P] Add conversation history pagination support in backend/src/services/chat_service.py
-- [ ] T075 [P] Optimize database queries with connection pooling in backend/src/database.py
-- [ ] T076 [P] Add API documentation with OpenAPI schema in backend/src/api/chat.py
-- [ ] T077 [P] Create README.md for chat service in backend/
-- [ ] T078 [P] Add deployment guide in backend/DEPLOYMENT.md
-- [ ] T079 Validate all quickstart.md examples work correctly
-- [ ] T080 Security audit: verify JWT validation, user isolation, input sanitization
-- [ ] T081 Performance test: verify response times meet targets (p95 < 3s)
-- [ ] T082 End-to-end test: complete task management workflow via natural language
+- [X] T070 [P] Add structured logging for all chat operations in backend/src/services/chat_service.py
+- [X] T071 [P] Add rate limiting per user (60 requests/minute) in backend/src/api/chat.py
+- [X] T072 [P] Add global rate limiting (1000 requests/minute) in backend/src/api/chat.py
+- [X] T073 [P] Add performance monitoring and metrics in backend/src/api/chat.py
+- [X] T074 [P] Add conversation history pagination support in backend/src/services/chat_service.py
+- [X] T075 [P] Optimize database queries with connection pooling in backend/src/database.py
+- [X] T076 [P] Add API documentation with OpenAPI schema in backend/src/api/chat.py
+- [X] T077 [P] Create README.md for chat service in backend/
+- [X] T078 [P] Add deployment guide in backend/DEPLOYMENT.md
+- [X] T079 Validate all quickstart.md examples work correctly
+- [X] T080 Security audit: verify JWT validation, user isolation, input sanitization
+- [X] T081 Performance test: verify response times meet targets (p95 < 3s)
+- [X] T082 End-to-end test: complete task management workflow via natural language
 
 ---
 

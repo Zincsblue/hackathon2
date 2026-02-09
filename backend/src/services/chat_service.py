@@ -10,10 +10,14 @@ from typing import Optional, List, Dict, Any
 from sqlmodel import Session, select
 from openai import OpenAI
 import os
+import logging
 
 from backend.src.models.conversation import Conversation
 from backend.src.models.message import Message
 from backend.src.services.mcp_client import MCPClient
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 
 class ChatService:
@@ -169,14 +173,19 @@ class ChatService:
         Returns:
             Conversation object
         """
+        logger.info(f"Getting or creating conversation for user: {user_id}")
         statement = select(Conversation).where(Conversation.user_id == user_id)
         conversation = self.session.exec(statement).first()
 
         if not conversation:
+            logger.info(f"Creating new conversation for user: {user_id}")
             conversation = Conversation(user_id=user_id)
             self.session.add(conversation)
             self.session.commit()
             self.session.refresh(conversation)
+            logger.info(f"Created conversation {conversation.id} for user: {user_id}")
+        else:
+            logger.debug(f"Found existing conversation {conversation.id} for user: {user_id}")
 
         return conversation
 
@@ -191,6 +200,7 @@ class ChatService:
         Returns:
             List of Message objects in chronological order
         """
+        logger.debug(f"Loading conversation history for conversation {conversation_id}, limit: {limit}")
         statement = (
             select(Message)
             .where(Message.conversation_id == conversation_id)
@@ -198,6 +208,7 @@ class ChatService:
             .limit(limit)
         )
         messages = self.session.exec(statement).all()
+        logger.info(f"Loaded {len(messages)} messages for conversation {conversation_id}")
         return list(messages)
 
     def save_message(
@@ -255,14 +266,18 @@ class ChatService:
         Returns:
             Dictionary with conversation_id and assistant message
         """
+        logger.info(f"Processing message for user {user_id}, conversation_id: {conversation_id}")
         try:
             # Get or create conversation
             if conversation_id:
                 conversation = self.session.get(Conversation, conversation_id)
                 if not conversation or conversation.user_id != user_id:
+                    logger.warning(f"Conversation {conversation_id} not found or access denied for user {user_id}")
                     raise ValueError("Conversation not found or access denied")
             else:
                 conversation = self.get_or_create_conversation(user_id)
+
+            logger.debug(f"Using conversation {conversation.id} for user {user_id}")
 
             # Save user message
             self.save_message(conversation.id, user_id, "user", message)
@@ -274,6 +289,7 @@ class ChatService:
             messages = self._format_conversation_history(history)
 
             # Call OpenAI with tools
+            logger.info(f"Invoking OpenAI agent for conversation {conversation.id}")
             try:
                 response = self.openai_client.chat.completions.create(
                     model="gpt-4",
@@ -286,12 +302,14 @@ class ChatService:
                 assistant_message = response.choices[0].message
 
                 if assistant_message.tool_calls:
+                    logger.info(f"Agent requested {len(assistant_message.tool_calls)} tool calls")
                     # Process tool calls
                     tool_messages = []
 
                     for tool_call in assistant_message.tool_calls:
                         function_name = tool_call.function.name
                         function_args = eval(tool_call.function.arguments)
+                        logger.info(f"Invoking MCP tool: {function_name} with args: {function_args}")
 
                         # Invoke MCP tool
                         tool_result = self._invoke_mcp_tool(
@@ -299,6 +317,7 @@ class ChatService:
                             function_name,
                             function_args
                         )
+                        logger.debug(f"Tool {function_name} result: {tool_result}")
 
                         # Add tool result to messages
                         tool_messages.append({
@@ -325,6 +344,7 @@ class ChatService:
                     })
                     messages.extend(tool_messages)
 
+                    logger.info(f"Getting final response from OpenAI after tool execution")
                     final_response = self.openai_client.chat.completions.create(
                         model="gpt-4",
                         messages=messages
@@ -332,10 +352,12 @@ class ChatService:
 
                     assistant_content = final_response.choices[0].message.content
                 else:
+                    logger.debug("No tool calls requested by agent")
                     assistant_content = assistant_message.content
 
             except Exception as e:
                 # Handle OpenAI API failures
+                logger.error(f"OpenAI API error: {str(e)}")
                 raise Exception(f"OPENAI_API_ERROR: {str(e)}")
 
             # Sanitize content to prevent XSS
@@ -349,6 +371,7 @@ class ChatService:
                 sanitized_content
             )
 
+            logger.info(f"Successfully processed message for conversation {conversation.id}")
             return {
                 "conversation_id": conversation.id,
                 "message": {
@@ -360,6 +383,7 @@ class ChatService:
 
         except Exception as e:
             # Handle MCP tool failures and other errors
+            logger.error(f"Error processing message: {str(e)}")
             if "MCP_TOOL_ERROR" in str(e):
                 raise Exception(f"MCP_TOOL_ERROR: {str(e)}")
             raise
