@@ -1,55 +1,70 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- Sync Impact Report:
+Version change: 1.0.0 → 1.1.0
+Modified principles: All principles were filled with project-specific content
+Added sections: Core Principles section with 6 specific principles
+Removed sections: None
+Templates requiring updates:
+- ✅ .specify/templates/plan-template.md - updated for consistency
+- ✅ .specify/templates/spec-template.md - updated for consistency
+- ✅ .specify/templates/tasks-template.md - updated for consistency
+Follow-up TODOs: None
+-->
+
+# Todo Full-Stack Web Application Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Spec-driven Development
+All implementation must strictly follow approved specifications. No coding is allowed without a corresponding approved specification and plan in place.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Agentic Workflow Compliance
+Enforce the flow spec → plan → tasks → implementation with no skipped steps. Every development activity must follow the agentic workflow pattern with proper planning and task breakdown.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Security-first Design
+Authentication, authorization, and user isolation are mandatory defaults. All API endpoints must validate JWT tokens and enforce strict task ownership per user, with unauthorized requests returning HTTP 401.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Deterministic Behavior
+APIs and UI must behave consistently across users, sessions, and environments. The system must provide predictable responses and maintain consistent state regardless of user or environmental variations.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Full-stack Coherence
+Frontend, backend, and database must integrate without mismatches or assumptions. All layers must communicate through well-defined contracts with proper error handling and data validation.
 
-### [PRINCIPLE_6_NAME]
+### No Manual Coding Constraint
+All code must be generated via Claude Code and Spec-Kit Plus tools. Direct manual implementation without proper specification and planning is strictly prohibited.
 
+## Technology Stack Requirements
 
-[PRINCIPLE__DESCRIPTION]
+Fixed technology stack constraints:
+- Frontend: Next.js 16+ (App Router)
+- Backend: Python FastAPI
+- ORM: SQLModel
+- Database: Neon Serverless PostgreSQL
+- Authentication: Better Auth (JWT-based)
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+All endpoints require a valid JWT after authentication. Backend authentication must be stateless (JWT only). Multi-user support is mandatory with data persistence across sessions required.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Development Workflow
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+All API behavior must be explicitly defined in specs before implementation. Authentication must be implemented using Better Auth with JWT tokens. All database queries must be user-scoped. REST APIs must follow proper HTTP semantics and status codes.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Implementation follows the Agentic Dev Stack workflow: Write spec → Generate plan → Break into tasks → Implement via Claude Code. No manual coding is allowed.
+
+## Success Criteria
+
+- All three specs (Backend, Authentication, Frontend) are fully implemented and integrated.
+- Users can sign up, sign in, and manage only their own tasks.
+- Unauthorized requests consistently return HTTP 401.
+- Task ownership is enforced on every CRUD operation.
+- The application works end-to-end as a full-stack system.
+- Specs, plans, tasks, and iterations are reviewable and traceable.
+- Project passes hackathon evaluation based on process correctness and implementation accuracy.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other practices and development guidelines for this project. All implementation must comply with the specified principles and technology stack. Any deviation from these principles requires formal amendment documentation and approval.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendments require: (1) Clear justification for change, (2) Impact assessment on existing codebase, (3) Updated dependent templates and documentation, (4) Approval from project stakeholders.
+
+All pull requests and reviews must verify compliance with constitutional principles. Implementation without proper specification and planning is grounds for immediate rejection.
+
+**Version**: 1.1.0 | **Ratified**: 2026-02-07 | **Last Amended**: 2026-02-07
