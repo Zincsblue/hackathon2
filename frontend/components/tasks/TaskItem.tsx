@@ -65,7 +65,7 @@ export default function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
 
           {/* Task Content */}
           <div className="flex-1 min-w-0">
-            <h3 className={`text-base sm:text-lg font-semibold mb-1 break-words ${task.completed ? 'line-through' : ''}`} style={{ color: task.completed ? '#6b7280' : undefined }} className={`text-base sm:text-lg font-semibold mb-1 break-words ${task.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
+            <h3 className={`text-base sm:text-lg font-semibold mb-1 break-words ${task.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
               {task.title}
             </h3>
             {task.description && (
